@@ -4,4 +4,16 @@
 EXTRA/
 osmotic_calculations/
 *pycache*
-refpaper_mods/*
+thermo_analysis/refpaper_mods/*
+# --- heavy / generated data: never versioned ---------------------------------------------
+HP_results
+FBP_results
+*.xtc_offsets.npz
+.pytest_cache/
+# --- symlinks to the shared data (recreate with ./make_links.sh) -------------------------
+/original_analysis/structures
+/thermo_analysis/structures
+# --- regenerated plots/arrays under results/ (small csv/json stay trackable) -------------
+thermo_analysis/results/**/*.png
+thermo_analysis/results/**/*.npz
+thermo_analysis/results/**/*.pdf

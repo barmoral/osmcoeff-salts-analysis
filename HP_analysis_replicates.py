@@ -25,11 +25,9 @@ logging.basicConfig(level=logging.WARNING)
 import warnings
 warnings.filterwarnings("ignore")
 
-import os
 import importlib.util
 from pathlib import Path
 import numpy as np
-import math
 import json
 import csv
 
@@ -43,7 +41,6 @@ from scipy.integrate import simpson
 from openmm.unit import (
     bar, mole, litre, kelvin, kilojoule_per_mole, nanometer,
 )
-from openmm.unit import Quantity
 
 import MDAnalysis as mda
 
@@ -782,7 +779,7 @@ def run_analysis(
         z_ion1=zpos_cnt_1, mean_ion1=mean_cnt_1, std_ion1=stack_cnt_1.std(axis=0),
         z_ion2=zpos_cnt_2, mean_ion2=mean_cnt_2, std_ion2=stack_cnt_2.std(axis=0),
         z_salt=zpos_cnt_s, mean_salt=mean_cnt_s, std_salt=stack_cnt_s.std(axis=0),
-        ion1=ion1, ion2=ion2,
+        ion1=ion1, ion2=ion2, n_replicates=N_replicates,
     )
 
     # ------------------------------------------------------------------
@@ -816,7 +813,7 @@ def run_analysis(
         z_ion1=zpos_M_1, mean_ion1=mean_molal_1, std_ion1=stack_molal_1.std(axis=0),
         z_ion2=zpos_M_2, mean_ion2=mean_molal_2, std_ion2=stack_molal_2.std(axis=0),
         z_salt=zpos_M_s, mean_salt=mean_molal_s, std_salt=stack_molal_s.std(axis=0),
-        ion1=ion1, ion2=ion2,
+        ion1=ion1, ion2=ion2, n_replicates=N_replicates,
     )
 
     # --- per-replicate concentration profiles (spot a bad replicate) ---
@@ -1045,7 +1042,7 @@ def run_analysis(
     # ------------------------------------------------------------------
     # Analyse bootstrap (parameter distributions + osmotic properties)
     # ------------------------------------------------------------------
-    def analyze_bootstrap(bps, bcs, averes, frdir_):
+    def analyze_bootstrap(bps, bcs, averes):
         bs_mean_parameters = []
         for i in range(n_expansion_terms + 1):
             pd_ = bps[1:, i]
@@ -1055,7 +1052,9 @@ def run_analysis(
                   f" repl.-ave. {averes[0][i]:.3f} +/- {np.sqrt(averes[1][i, i]):.3f}")
             fig, ax = plt.subplots()
             ax.hist(pd_, bins="scott")
-            ax.set_title(f"Parameter {vnames[i]}")
+            ax.set_title(f"Bootstrap distribution - parameter {vnames[i]}")
+            ax.set_xlabel(f"parameter {vnames[i]}")
+            ax.set_ylabel("Count")
             fig.savefig(f"{outdir}/param_{vnames[i]}_{ion1}{ion2}.png", dpi=150)
             plt.close(fig)
         for i in range(n_expansion_terms + 1):
@@ -1064,13 +1063,14 @@ def run_analysis(
                 ax.scatter(bps[1:, i], bps[1:, j], c="m", s=10, alpha=0.3)
                 ax.scatter(bps[0, i], bps[0, j], color="k", marker="*", s=50)
                 ax.scatter(averes[0][i], averes[0][j], color="b", marker="*", s=50)
+                ax.set_title(f"Bootstrap parameter correlation: {vnames[i]} vs {vnames[j]}")
                 ax.set_xlabel(f"parameter {vnames[i]}")
                 ax.set_ylabel(f"parameter {vnames[j]}")
                 fig.savefig(f"{outdir}/param_corr_{vnames[i]}_{vnames[j]}_{ion1}{ion2}.png", dpi=150)
                 plt.close(fig)
         return bs_mean_parameters
 
-    def plot_osmotic_coefficients(bps, bcs, averes, avec, title, ylim, frdir_):
+    def plot_osmotic_coefficients(bps, bcs, averes, avec, title, ylim):
         ops, ocs = [], []
         for i, r in enumerate(zip(bps, bcs)):
             if i != 0:
@@ -1163,22 +1163,22 @@ def run_analysis(
         print(f"[check] SHAPE MISMATCH {_b0.shape} vs {np.shape(c_0)} "
               f"- the two z-grids disagree")
     analyze_bootstrap(
-        bparams_unweighted, bprofiles_unweighted, result_unweighted, frdir
+        bparams_unweighted, bprofiles_unweighted, result_unweighted
     )
     unweighted_osmotic = plot_osmotic_coefficients(
         bparams_unweighted, bprofiles_unweighted, result_unweighted, c_0,
-        title="Least squares unweighted parameters", ylim=[0.9, 1.2], frdir_=frdir,
+        title="Least squares unweighted parameters", ylim=[0.9, 1.2],
     )
 
     bprofiles_weighted, bparams_weighted = bootstrap_histograms(
         samples=zvals_all, n_boot=n_bootstraps, wtype="weighted",
     )
     analyze_bootstrap(
-        bparams_weighted, bprofiles_weighted, result_weighted, frdir
+        bparams_weighted, bprofiles_weighted, result_weighted
     )
     weighted_osmotic = plot_osmotic_coefficients(
         bparams_weighted, bprofiles_weighted, result_weighted, c_0,
-        title="Least squares weighted parameters", ylim=[0.9, 1.2], frdir_=frdir,
+        title="Least squares weighted parameters", ylim=[0.9, 1.2],
     )
 
     # ------------------------------------------------------------------
@@ -1207,11 +1207,11 @@ def run_analysis(
     print(f"Condition number of covariance: {np.linalg.cond(covparam):.3g}")
 
     analyze_bootstrap(
-        bparams_ml, bprofiles_ml, [full_opt, covparam], frdir
+        bparams_ml, bprofiles_ml, [full_opt, covparam]
     )
     ml_osmotic = plot_osmotic_coefficients(
         bparams_ml, bprofiles_ml, [full_opt], c_opt_sparse_all,
-        title="Maximum Likelihood", ylim=[0.9, 1.2], frdir_=frdir,
+        title="Maximum Likelihood", ylim=[0.9, 1.2],
     )
 
     # ------------------------------------------------------------------
@@ -1222,6 +1222,9 @@ def run_analysis(
     for i in range(len(bprofiles_ml)):
         ax.scatter(zsparse_all, bprofiles_ml[i], s=0.1, lw=0.1, c="m")
         maxconcs.append(bprofiles_ml[i][0])
+    ax.set_title(f"ML bootstrap concentration profiles - {ion1}{ion2}")
+    ax.set_xlabel("z (nm)")
+    ax.set_ylabel("Concentration (mol/L)")
     fig.savefig(f"{outdir}/maxconc_scatter_{ion1}{ion2}.png", dpi=150)
     plt.close(fig)
     av_maxconcs = np.mean(maxconcs)
@@ -1311,7 +1314,7 @@ def run_analysis(
                     color="g", alpha=0.2, label="95% Confidence Interval")
     ax.set_xlim(0, molality + 0.5)
     ax.set_title(
-        f"HP using k={k} - {ion1}{ion2}: Cmax {av_maxconcs_molal:.1f} mol/kg ({N_i_last} ion pairs)",
+        f"HP using k={k_val:.2f} kJ/(mol·nm²) - {ion1}{ion2}: Cmax {av_maxconcs_molal:.1f} mol/kg ({N_i_last} ion pairs)",
         fontsize=BIGGER_SIZE,
     )
     ax.set_xlabel("Concentration (mol/kg)", fontsize=MEDIUM_SIZE)
@@ -1343,7 +1346,7 @@ def run_analysis(
                     color="g", alpha=0.2, label="95% Confidence Interval")
     ax.set_xlim(0, molality + 0.5)
     ax.set_title(
-        f"HP using k={k} - {ion1}{ion2}: Cmax {av_maxconcs_molal:.1f} mol/kg ({N_i_last} ion pairs)",
+        f"HP using k={k_val:.2f} kJ/(mol·nm²) - {ion1}{ion2}: Cmax {av_maxconcs_molal:.1f} mol/kg ({N_i_last} ion pairs)",
         fontsize=BIGGER_SIZE,
     )
     ax.set_xlabel("Concentration (mol/kg)", fontsize=MEDIUM_SIZE)
@@ -1381,7 +1384,7 @@ def run_analysis(
     ax.set_ylabel("Osmotic Coefficient")
     ax.set_title(
         f"Osmotic coefficient [molal]:\n{n_expansion_terms + 1} expansion "
-        f"terms with k={k_val:.4f}"
+        f"terms with k={k_val:.2f}"
     )
     fig.savefig(f"{outdir}/comp_{want_tag}_{n_expansion_terms}_{eps:.2e}.pdf")
     plt.close(fig)

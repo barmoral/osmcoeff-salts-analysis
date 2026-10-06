@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SMIRNOFF version="0.3" aromaticity_model="OEAroModel_MDL">
+    <!-- Li/Merz 12-6 ion parameters for the OPC water model (60 ions: +1, -1, +2, +3, +4).
+         Source: AmberTools frcmod.ionslm_126_opc (Li-Merz CM/12-6 set for OPC).
+         Values verified against openmmforcefields ffxml/amber/ions/ionslm_126_opc.xml
+         (generated from AmberTools 24.8); all rmin_half/epsilon/charges match exactly.
+         vdW/Electrostatics handler headers copied from ionsjc_tip4pew.offxml (openff-2.3.0 style).
+         Intended use: load together with opc.offxml. -->
+    <vdW version="0.4" potential="Lennard-Jones-12-6" combining_rules="Lorentz-Berthelot" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1.0" cutoff="9.0 * angstrom ** 1" switch_width="1.0 * angstrom ** 1" periodic_method="cutoff" nonperiodic_method="no-cutoff">
+        <Atom smirks="[#3+1:1]" epsilon="0.00216058 * mole ** -1 * kilocalorie ** 1" id="Li+" rmin_half="1.242 * angstrom ** 1"></Atom>
+        <Atom smirks="[#11+1:1]" epsilon="0.02960343 * mole ** -1 * kilocalorie ** 1" id="Na+" rmin_half="1.467 * angstrom ** 1"></Atom>
+        <Atom smirks="[#19+1:1]" epsilon="0.13953816 * mole ** -1 * kilocalorie ** 1" id="K+" rmin_half="1.702 * angstrom ** 1"></Atom>
+        <Atom smirks="[#37+1:1]" epsilon="0.2279546 * mole ** -1 * kilocalorie ** 1" id="Rb+" rmin_half="1.818 * angstrom ** 1"></Atom>
+        <Atom smirks="[#55+1:1]" epsilon="0.35308749 * mole ** -1 * kilocalorie ** 1" id="Cs+" rmin_half="1.96 * angstrom ** 1"></Atom>
+        <Atom smirks="[#81+1:1]" epsilon="0.11250137 * mole ** -1 * kilocalorie ** 1" id="Tl+" rmin_half="1.66 * angstrom ** 1"></Atom>
+        <Atom smirks="[#29+1:1]" epsilon="0.00078213 * mole ** -1 * kilocalorie ** 1" id="Cu+" rmin_half="1.18 * angstrom ** 1"></Atom>
+        <Atom smirks="[#47+1:1]" epsilon="0.00602547 * mole ** -1 * kilocalorie ** 1" id="Ag+" rmin_half="1.316 * angstrom ** 1"></Atom>
+        <Atom smirks="[#9X0-1:1]" epsilon="0.24650465 * mole ** -1 * kilocalorie ** 1" id="F-" rmin_half="1.84 * angstrom ** 1"></Atom>
+        <Atom smirks="[#17X0-1:1]" epsilon="0.6787887 * mole ** -1 * kilocalorie ** 1" id="Cl-" rmin_half="2.36 * angstrom ** 1"></Atom>
+        <Atom smirks="[#35X0-1:1]" epsilon="0.75971103 * mole ** -1 * kilocalorie ** 1" id="Br-" rmin_half="2.499 * angstrom ** 1"></Atom>
+        <Atom smirks="[#53X0-1:1]" epsilon="0.90300541 * mole ** -1 * kilocalorie ** 1" id="I-" rmin_half="2.9 * angstrom ** 1"></Atom>
+        <Atom smirks="[#4+2:1]" epsilon="1.28e-06 * mole ** -1 * kilocalorie ** 1" id="Be2+" rmin_half="0.921 * angstrom ** 1"></Atom>
+        <Atom smirks="[#29+2:1]" epsilon="0.0007549 * mole ** -1 * kilocalorie ** 1" id="Cu2+" rmin_half="1.178 * angstrom ** 1"></Atom>
+        <Atom smirks="[#28+2:1]" epsilon="0.00104974 * mole ** -1 * kilocalorie ** 1" id="Ni2+" rmin_half="1.197 * angstrom ** 1"></Atom>
+        <Atom smirks="[#78+2:1]" epsilon="0.00150903 * mole ** -1 * kilocalorie ** 1" id="Pt2+" rmin_half="1.219 * angstrom ** 1"></Atom>
+        <Atom smirks="[#30+2:1]" epsilon="0.00150903 * mole ** -1 * kilocalorie ** 1" id="Zn2+" rmin_half="1.219 * angstrom ** 1"></Atom>
+        <Atom smirks="[#27+2:1]" epsilon="0.00294683 * mole ** -1 * kilocalorie ** 1" id="Co2+" rmin_half="1.263 * angstrom ** 1"></Atom>
+        <Atom smirks="[#46+2:1]" epsilon="0.00321068 * mole ** -1 * kilocalorie ** 1" id="Pd2+" rmin_half="1.269 * angstrom ** 1"></Atom>
+        <Atom smirks="[#47+2:1]" epsilon="0.00523385 * mole ** -1 * kilocalorie ** 1" id="Ag2+" rmin_half="1.305 * angstrom ** 1"></Atom>
+        <Atom smirks="[#24+2:1]" epsilon="0.00602547 * mole ** -1 * kilocalorie ** 1" id="Cr2+" rmin_half="1.316 * angstrom ** 1"></Atom>
+        <Atom smirks="[#26+2:1]" epsilon="0.00657749 * mole ** -1 * kilocalorie ** 1" id="Fe2+" rmin_half="1.323 * angstrom ** 1"></Atom>
+        <Atom smirks="[#12+2:1]" epsilon="0.0071693 * mole ** -1 * kilocalorie ** 1" id="Mg2+" rmin_half="1.33 * angstrom ** 1"></Atom>
+        <Atom smirks="[#23+2:1]" epsilon="0.00752608 * mole ** -1 * kilocalorie ** 1" id="V2+" rmin_half="1.334 * angstrom ** 1"></Atom>
+        <Atom smirks="[#25+2:1]" epsilon="0.0128646 * mole ** -1 * kilocalorie ** 1" id="Mn2+" rmin_half="1.381 * angstrom ** 1"></Atom>
+        <Atom smirks="[#80+2:1]" epsilon="0.0128646 * mole ** -1 * kilocalorie ** 1" id="Hg2+" rmin_half="1.381 * angstrom ** 1"></Atom>
+        <Atom smirks="[#48+2:1]" epsilon="0.01400886 * mole ** -1 * kilocalorie ** 1" id="Cd2+" rmin_half="1.389 * angstrom ** 1"></Atom>
+        <Atom smirks="[#70+2:1]" epsilon="0.08034231 * mole ** -1 * kilocalorie ** 1" id="Yb2+" rmin_half="1.602 * angstrom ** 1"></Atom>
+        <Atom smirks="[#20+2:1]" epsilon="0.08337961 * mole ** -1 * kilocalorie ** 1" id="Ca2+" rmin_half="1.608 * angstrom ** 1"></Atom>
+        <Atom smirks="[#50+2:1]" epsilon="0.09235154 * mole ** -1 * kilocalorie ** 1" id="Sn2+" rmin_half="1.625 * angstrom ** 1"></Atom>
+        <Atom smirks="[#82+2:1]" epsilon="0.14295367 * mole ** -1 * kilocalorie ** 1" id="Pb2+" rmin_half="1.707 * angstrom ** 1"></Atom>
+        <Atom smirks="[#63+2:1]" epsilon="0.17618319 * mole ** -1 * kilocalorie ** 1" id="Eu2+" rmin_half="1.753 * angstrom ** 1"></Atom>
+        <Atom smirks="[#38+2:1]" epsilon="0.18612361 * mole ** -1 * kilocalorie ** 1" id="Sr2+" rmin_half="1.766 * angstrom ** 1"></Atom>
+        <Atom smirks="[#62+2:1]" epsilon="0.18612361 * mole ** -1 * kilocalorie ** 1" id="Sm2+" rmin_half="1.766 * angstrom ** 1"></Atom>
+        <Atom smirks="[#56+2:1]" epsilon="0.35308749 * mole ** -1 * kilocalorie ** 1" id="Ba2+" rmin_half="1.96 * angstrom ** 1"></Atom>
+        <Atom smirks="[#88+2:1]" epsilon="0.35308749 * mole ** -1 * kilocalorie ** 1" id="Ra2+" rmin_half="1.96 * angstrom ** 1"></Atom>
+        <Atom smirks="[#13+3:1]" epsilon="0.00243637 * mole ** -1 * kilocalorie ** 1" id="Al3+" rmin_half="1.25 * angstrom ** 1"></Atom>
+        <Atom smirks="[#26+3:1]" epsilon="0.01570749 * mole ** -1 * kilocalorie ** 1" id="Fe3+" rmin_half="1.4 * angstrom ** 1"></Atom>
+        <Atom smirks="[#24+3:1]" epsilon="0.00770969 * mole ** -1 * kilocalorie ** 1" id="Cr3+" rmin_half="1.336 * angstrom ** 1"></Atom>
+        <Atom smirks="[#49+3:1]" epsilon="0.02322071 * mole ** -1 * kilocalorie ** 1" id="In3+" rmin_half="1.44 * angstrom ** 1"></Atom>
+        <Atom smirks="[#81+3:1]" epsilon="0.03393126 * mole ** -1 * kilocalorie ** 1" id="Tl3+" rmin_half="1.483 * angstrom ** 1"></Atom>
+        <Atom smirks="[#39+3:1]" epsilon="0.06751391 * mole ** -1 * kilocalorie ** 1" id="Y3+" rmin_half="1.575 * angstrom ** 1"></Atom>
+        <Atom smirks="[#57+3:1]" epsilon="0.13818331 * mole ** -1 * kilocalorie ** 1" id="La3+" rmin_half="1.7 * angstrom ** 1"></Atom>
+        <Atom smirks="[#58+3:1]" epsilon="0.15557763 * mole ** -1 * kilocalorie ** 1" id="Ce3+" rmin_half="1.725 * angstrom ** 1"></Atom>
+        <Atom smirks="[#59+3:1]" epsilon="0.14990448 * mole ** -1 * kilocalorie ** 1" id="Pr3+" rmin_half="1.717 * angstrom ** 1"></Atom>
+        <Atom smirks="[#60+3:1]" epsilon="0.11371963 * mole ** -1 * kilocalorie ** 1" id="Nd3+" rmin_half="1.662 * angstrom ** 1"></Atom>
+        <Atom smirks="[#62+3:1]" epsilon="0.09957472 * mole ** -1 * kilocalorie ** 1" id="Sm3+" rmin_half="1.638 * angstrom ** 1"></Atom>
+        <Atom smirks="[#63+3:1]" epsilon="0.10417397 * mole ** -1 * kilocalorie ** 1" id="Eu3+" rmin_half="1.646 * angstrom ** 1"></Atom>
+        <Atom smirks="[#64+3:1]" epsilon="0.07934493 * mole ** -1 * kilocalorie ** 1" id="Gd3+" rmin_half="1.6 * angstrom ** 1"></Atom>
+        <Atom smirks="[#65+3:1]" epsilon="0.08337961 * mole ** -1 * kilocalorie ** 1" id="Tb3+" rmin_half="1.608 * angstrom ** 1"></Atom>
+        <Atom smirks="[#66+3:1]" epsilon="0.07117158 * mole ** -1 * kilocalorie ** 1" id="Dy3+" rmin_half="1.583 * angstrom ** 1"></Atom>
+        <Atom smirks="[#68+3:1]" epsilon="0.06751391 * mole ** -1 * kilocalorie ** 1" id="Er3+" rmin_half="1.575 * angstrom ** 1"></Atom>
+        <Atom smirks="[#69+3:1]" epsilon="0.06751391 * mole ** -1 * kilocalorie ** 1" id="Tm3+" rmin_half="1.575 * angstrom ** 1"></Atom>
+        <Atom smirks="[#71+3:1]" epsilon="0.06014121 * mole ** -1 * kilocalorie ** 1" id="Lu3+" rmin_half="1.558 * angstrom ** 1"></Atom>
+        <Atom smirks="[#72+4:1]" epsilon="0.02808726 * mole ** -1 * kilocalorie ** 1" id="Hf4+" rmin_half="1.461 * angstrom ** 1"></Atom>
+        <Atom smirks="[#40+4:1]" epsilon="0.03537062 * mole ** -1 * kilocalorie ** 1" id="Zr4+" rmin_half="1.488 * angstrom ** 1"></Atom>
+        <Atom smirks="[#58+4:1]" epsilon="0.12693448 * mole ** -1 * kilocalorie ** 1" id="Ce4+" rmin_half="1.683 * angstrom ** 1"></Atom>
+        <Atom smirks="[#92+4:1]" epsilon="0.12693448 * mole ** -1 * kilocalorie ** 1" id="U4+" rmin_half="1.683 * angstrom ** 1"></Atom>
+        <Atom smirks="[#94+4:1]" epsilon="0.11129023 * mole ** -1 * kilocalorie ** 1" id="Pu4+" rmin_half="1.658 * angstrom ** 1"></Atom>
+        <Atom smirks="[#90+4:1]" epsilon="0.14089951 * mole ** -1 * kilocalorie ** 1" id="Th4+" rmin_half="1.704 * angstrom ** 1"></Atom>
+    </vdW>
+    <LibraryCharges version="0.3">
+        <LibraryCharge smirks="[#3+1:1]" charge1="1.0 * elementary_charge ** 1" id="Li+"></LibraryCharge>
+        <LibraryCharge smirks="[#11+1:1]" charge1="1.0 * elementary_charge ** 1" id="Na+"></LibraryCharge>
+        <LibraryCharge smirks="[#19+1:1]" charge1="1.0 * elementary_charge ** 1" id="K+"></LibraryCharge>
+        <LibraryCharge smirks="[#37+1:1]" charge1="1.0 * elementary_charge ** 1" id="Rb+"></LibraryCharge>
+        <LibraryCharge smirks="[#55+1:1]" charge1="1.0 * elementary_charge ** 1" id="Cs+"></LibraryCharge>
+        <LibraryCharge smirks="[#81+1:1]" charge1="1.0 * elementary_charge ** 1" id="Tl+"></LibraryCharge>
+        <LibraryCharge smirks="[#29+1:1]" charge1="1.0 * elementary_charge ** 1" id="Cu+"></LibraryCharge>
+        <LibraryCharge smirks="[#47+1:1]" charge1="1.0 * elementary_charge ** 1" id="Ag+"></LibraryCharge>
+        <LibraryCharge smirks="[#9X0-1:1]" charge1="-1.0 * elementary_charge ** 1" id="F-"></LibraryCharge>
+        <LibraryCharge smirks="[#17X0-1:1]" charge1="-1.0 * elementary_charge ** 1" id="Cl-"></LibraryCharge>
+        <LibraryCharge smirks="[#35X0-1:1]" charge1="-1.0 * elementary_charge ** 1" id="Br-"></LibraryCharge>
+        <LibraryCharge smirks="[#53X0-1:1]" charge1="-1.0 * elementary_charge ** 1" id="I-"></LibraryCharge>
+        <LibraryCharge smirks="[#4+2:1]" charge1="2.0 * elementary_charge ** 1" id="Be2+"></LibraryCharge>
+        <LibraryCharge smirks="[#29+2:1]" charge1="2.0 * elementary_charge ** 1" id="Cu2+"></LibraryCharge>
+        <LibraryCharge smirks="[#28+2:1]" charge1="2.0 * elementary_charge ** 1" id="Ni2+"></LibraryCharge>
+        <LibraryCharge smirks="[#78+2:1]" charge1="2.0 * elementary_charge ** 1" id="Pt2+"></LibraryCharge>
+        <LibraryCharge smirks="[#30+2:1]" charge1="2.0 * elementary_charge ** 1" id="Zn2+"></LibraryCharge>
+        <LibraryCharge smirks="[#27+2:1]" charge1="2.0 * elementary_charge ** 1" id="Co2+"></LibraryCharge>
+        <LibraryCharge smirks="[#46+2:1]" charge1="2.0 * elementary_charge ** 1" id="Pd2+"></LibraryCharge>
+        <LibraryCharge smirks="[#47+2:1]" charge1="2.0 * elementary_charge ** 1" id="Ag2+"></LibraryCharge>
+        <LibraryCharge smirks="[#24+2:1]" charge1="2.0 * elementary_charge ** 1" id="Cr2+"></LibraryCharge>
+        <LibraryCharge smirks="[#26+2:1]" charge1="2.0 * elementary_charge ** 1" id="Fe2+"></LibraryCharge>
+        <LibraryCharge smirks="[#12+2:1]" charge1="2.0 * elementary_charge ** 1" id="Mg2+"></LibraryCharge>
+        <LibraryCharge smirks="[#23+2:1]" charge1="2.0 * elementary_charge ** 1" id="V2+"></LibraryCharge>
+        <LibraryCharge smirks="[#25+2:1]" charge1="2.0 * elementary_charge ** 1" id="Mn2+"></LibraryCharge>
+        <LibraryCharge smirks="[#80+2:1]" charge1="2.0 * elementary_charge ** 1" id="Hg2+"></LibraryCharge>
+        <LibraryCharge smirks="[#48+2:1]" charge1="2.0 * elementary_charge ** 1" id="Cd2+"></LibraryCharge>
+        <LibraryCharge smirks="[#70+2:1]" charge1="2.0 * elementary_charge ** 1" id="Yb2+"></LibraryCharge>
+        <LibraryCharge smirks="[#20+2:1]" charge1="2.0 * elementary_charge ** 1" id="Ca2+"></LibraryCharge>
+        <LibraryCharge smirks="[#50+2:1]" charge1="2.0 * elementary_charge ** 1" id="Sn2+"></LibraryCharge>
+        <LibraryCharge smirks="[#82+2:1]" charge1="2.0 * elementary_charge ** 1" id="Pb2+"></LibraryCharge>
+        <LibraryCharge smirks="[#63+2:1]" charge1="2.0 * elementary_charge ** 1" id="Eu2+"></LibraryCharge>
+        <LibraryCharge smirks="[#38+2:1]" charge1="2.0 * elementary_charge ** 1" id="Sr2+"></LibraryCharge>
+        <LibraryCharge smirks="[#62+2:1]" charge1="2.0 * elementary_charge ** 1" id="Sm2+"></LibraryCharge>
+        <LibraryCharge smirks="[#56+2:1]" charge1="2.0 * elementary_charge ** 1" id="Ba2+"></LibraryCharge>
+        <LibraryCharge smirks="[#88+2:1]" charge1="2.0 * elementary_charge ** 1" id="Ra2+"></LibraryCharge>
+        <LibraryCharge smirks="[#13+3:1]" charge1="3.0 * elementary_charge ** 1" id="Al3+"></LibraryCharge>
+        <LibraryCharge smirks="[#26+3:1]" charge1="3.0 * elementary_charge ** 1" id="Fe3+"></LibraryCharge>
+        <LibraryCharge smirks="[#24+3:1]" charge1="3.0 * elementary_charge ** 1" id="Cr3+"></LibraryCharge>
+        <LibraryCharge smirks="[#49+3:1]" charge1="3.0 * elementary_charge ** 1" id="In3+"></LibraryCharge>
+        <LibraryCharge smirks="[#81+3:1]" charge1="3.0 * elementary_charge ** 1" id="Tl3+"></LibraryCharge>
+        <LibraryCharge smirks="[#39+3:1]" charge1="3.0 * elementary_charge ** 1" id="Y3+"></LibraryCharge>
+        <LibraryCharge smirks="[#57+3:1]" charge1="3.0 * elementary_charge ** 1" id="La3+"></LibraryCharge>
+        <LibraryCharge smirks="[#58+3:1]" charge1="3.0 * elementary_charge ** 1" id="Ce3+"></LibraryCharge>
+        <LibraryCharge smirks="[#59+3:1]" charge1="3.0 * elementary_charge ** 1" id="Pr3+"></LibraryCharge>
+        <LibraryCharge smirks="[#60+3:1]" charge1="3.0 * elementary_charge ** 1" id="Nd3+"></LibraryCharge>
+        <LibraryCharge smirks="[#62+3:1]" charge1="3.0 * elementary_charge ** 1" id="Sm3+"></LibraryCharge>
+        <LibraryCharge smirks="[#63+3:1]" charge1="3.0 * elementary_charge ** 1" id="Eu3+"></LibraryCharge>
+        <LibraryCharge smirks="[#64+3:1]" charge1="3.0 * elementary_charge ** 1" id="Gd3+"></LibraryCharge>
+        <LibraryCharge smirks="[#65+3:1]" charge1="3.0 * elementary_charge ** 1" id="Tb3+"></LibraryCharge>
+        <LibraryCharge smirks="[#66+3:1]" charge1="3.0 * elementary_charge ** 1" id="Dy3+"></LibraryCharge>
+        <LibraryCharge smirks="[#68+3:1]" charge1="3.0 * elementary_charge ** 1" id="Er3+"></LibraryCharge>
+        <LibraryCharge smirks="[#69+3:1]" charge1="3.0 * elementary_charge ** 1" id="Tm3+"></LibraryCharge>
+        <LibraryCharge smirks="[#71+3:1]" charge1="3.0 * elementary_charge ** 1" id="Lu3+"></LibraryCharge>
+        <LibraryCharge smirks="[#72+4:1]" charge1="4.0 * elementary_charge ** 1" id="Hf4+"></LibraryCharge>
+        <LibraryCharge smirks="[#40+4:1]" charge1="4.0 * elementary_charge ** 1" id="Zr4+"></LibraryCharge>
+        <LibraryCharge smirks="[#58+4:1]" charge1="4.0 * elementary_charge ** 1" id="Ce4+"></LibraryCharge>
+        <LibraryCharge smirks="[#92+4:1]" charge1="4.0 * elementary_charge ** 1" id="U4+"></LibraryCharge>
+        <LibraryCharge smirks="[#94+4:1]" charge1="4.0 * elementary_charge ** 1" id="Pu4+"></LibraryCharge>
+        <LibraryCharge smirks="[#90+4:1]" charge1="4.0 * elementary_charge ** 1" id="Th4+"></LibraryCharge>
+    </LibraryCharges>
+    <Electrostatics version="0.4" scale12="0.0" scale13="0.0" scale14="0.8333333333" scale15="1.0" cutoff="9.0 * angstrom ** 1" switch_width="0.0 * angstrom ** 1" periodic_potential="Ewald3D-ConductingBoundary" nonperiodic_potential="Coulomb" exception_potential="Coulomb"></Electrostatics>
+</SMIRNOFF>

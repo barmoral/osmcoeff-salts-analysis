@@ -1,0 +1,8 @@
+run,fit,quantity,rms_difference,max_abs_difference
+TIP4P/2005 paperbox (new),maximum_likelihood,Pi(C) molar fit (bar),6.40185,10.5587
+TIP4P/2005 paperbox (new),maximum_likelihood,phi(m) molar fit,0.0645452,0.0911356
+TIP4P/2005 paperbox (new),maximum_likelihood,ln gamma(m) molal,0.0543937,0.0919396
+TIP4P/2005 paperbox (new),maximum_likelihood,RT ln a_w (kJ/mol),0.0112764,0.0221576
+TIP4P/2005 paperbox (new),maximum_likelihood,rho(m) constant mu_w,0.0410917,0.0462049
+TIP4P/2005 paperbox (new),maximum_likelihood,V_w(m) (cm3/mol),0.793785,0.866002
+TIP4P/2005 paperbox (new),maximum_likelihood,mu_s^ex(C) aligned at C_max,0.094882,0.152399

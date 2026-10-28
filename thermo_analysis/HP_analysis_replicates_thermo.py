@@ -24,6 +24,7 @@ HP_analysis_replicates_thermo.py (this copy) - changes vs HP_analysis_replicates
      The reservoir density is ALWAYS measured and stamped on the saved summary plots (and returned).
      `reservoir_density_target` (g/cm3, YOUR water model at your T, P) is only used for warn/strict.
   5. M_WATER_G_PER_MOL 18.015 -> 18.01528 (matches salt_data).
+     z is wrapped into [0, Lz) before folding (atoms just outside the box used to be dropped from the edge bin).
   6. New: density (eq 22/23), V_w (eq 24), molal description, ln gamma+-, water and ion chemical
      potentials - thermo_from_profiles(); `thermo_extras=True`. Optional `reference=` draws literature curves.
 
@@ -251,7 +252,7 @@ def get_ion_array(u, ions, distance=None):
         distance = u.trajectory.ts.dimensions[2] / 2.0      # A, box centre
     ion_array = []
     for ts in u.trajectory:
-        ions_z = ions.positions[:, 2]
+        ions_z = np.mod(ions.positions[:, 2], ts.dimensions[2])      # wrap into [0, Lz): molecules are wrapped by centre
         ion_array.append(ions_z)
     ionz = np.abs(np.array(ion_array) - distance) / 10
     zvals = ionz.flatten()
@@ -268,7 +269,9 @@ def count_profile_z_fixed_Lz(u, ag, dz_nm):
     n_frames = 0
     for ts in u.trajectory:
         mid = Lz_nm / 2.0
-        z_nm = np.abs(ag.positions[:, 2] / 10.0 - mid)
+        # wrap into [0, Lz) first: atoms of molecules wrapped by their centre can sit a fraction of an A
+        # outside the box and would otherwise fall outside the histogram (under-counting the edge bin)
+        z_nm = np.abs(np.mod(ag.positions[:, 2], ts.dimensions[2]) / 10.0 - mid)
         counts, _ = np.histogram(z_nm, bins=edges)
         counts_accum += counts
         n_frames += 1
@@ -298,7 +301,9 @@ def molarity_profile_fixed_Lz(u, ag, dz_nm):
     for ts in u.trajectory:
         Lx_nm, Ly_nm, _ = ts.dimensions[:3] / 10.0
         mid = Lz_nm / 2.0
-        z_nm = np.abs(ag.positions[:, 2] / 10.0 - mid)
+        # wrap into [0, Lz) first: atoms of molecules wrapped by their centre can sit a fraction of an A
+        # outside the box and would otherwise fall outside the histogram (under-counting the edge bin)
+        z_nm = np.abs(np.mod(ag.positions[:, 2], ts.dimensions[2]) / 10.0 - mid)
         counts, _ = np.histogram(z_nm, bins=edges)
         bin_vol_L = (Lx_nm * Ly_nm) * widths * 1e-24
         with np.errstate(divide="ignore", invalid="ignore"):

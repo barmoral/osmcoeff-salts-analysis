@@ -101,3 +101,38 @@ def test_format_dict_turns_nan_into_null_and_stays_valid_json(hp_mod):
 
 def test_blank_nan(hp_mod):
     assert hp_mod._blank_nan(float("nan")) == "" and hp_mod._blank_nan(1.5) == 1.5
+
+
+# --------------------------------------------------------------- wrapping at the box edge
+def _periodic_uniform_with_overhang(lz, edge=0.05):
+    """Uniform in the periodic box, but half of the atoms within `edge` nm of a wall are reported on the
+    other side of it (z < 0 or z > Lz), as happens when molecules are wrapped by their centre."""
+    def f(rng, n):
+        z = rng.uniform(0.0, lz, n)
+        flip = rng.uniform(0, 1, n) < 0.5
+        z = np.where((z < edge) & flip, z + lz, z)
+        z = np.where((z > lz - edge) & flip, z - lz, z)
+        return z
+    return f
+
+
+def test_atoms_just_outside_the_box_are_wrapped_not_dropped(hp_mod):
+    """REGRESSION: molecules are wrapped by their centre, so a few atoms sit a fraction of an A beyond [0, Lz).
+    The folded histogram dropped them, under-counting the outermost bin (water 'density' 0.88 there)."""
+    from conftest import make_universe
+    lz = 10.0
+    u = make_universe(n_pairs=10, n_water=6000, lz=lz, n_frames=12, seed=5,
+                      water_z_nm=_periodic_uniform_with_overhang(lz))
+    water = u.select_atoms("resname HOH and name O*")
+    assert (water.positions[:, 2] > lz * 10).any() or (water.positions[:, 2] < 0).any()    # the overhang is there
+    _z, c_w = hp_mod.molarity_profile_fixed_Lz(u, water, 0.05)
+    bulk = c_w[:-5].mean()
+    assert c_w[-1] == pytest.approx(bulk, rel=0.2)             # without the wrap this bin lost ~50%
+
+
+def test_ion_array_wraps_too(hp_mod):
+    from conftest import make_universe
+    u = make_universe(n_pairs=5, n_water=10, lz=10.0, n_frames=2, seed=1,
+                      ion_z_nm=lambda rng, n: np.full(n, 10.01))                         # 0.1 A beyond the top
+    z = hp_mod.get_ion_array(u, u.select_atoms("resname NA CL"))
+    assert np.allclose(z, 4.99, atol=1e-4)                     # wraps to 0.1 A, folds to |0.01 - 5| nm

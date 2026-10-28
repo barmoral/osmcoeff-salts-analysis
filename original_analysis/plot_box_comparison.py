@@ -13,6 +13,7 @@ the number of fitting terms, this one holds the terms fixed and varies the box.
     # original vs clone
     python plot_box_comparison.py "14.4 nm (original)=HP_results/HP_NaCl_TIP3P" "28.8 nm (clone)=HP_results/HP_NaCl_TIP3P_dbox"
     python plot_box_comparison.py  "28.8 nm (clone)=HP_NaCl_TIP3P_dbox" "18.0 nm (clone)=HP_NaCl_TIP3P_lcbox" "14.4 nm (original)=HP_NaCl_TIP3P" 
+    python plot_box_comparison.py  "28.8 nm (clone)=results/HP_NaCl_TIP3P_dbox/new"  "18.0 nm (clone)=results/HP_NaCl_TIP3P_lcbox/new"  "14.4 nm (original)=results/HP_NaCl_TIP3P/new"  -o results/_comparisons/box_comparison_new.png
 
     # add the non-clone 28.8 nm box, pin the term count, save elsewhere
     python plot_box_comparison.py \

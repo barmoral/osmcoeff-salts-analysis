@@ -6,4 +6,5 @@ for ws in original_analysis thermo_analysis; do
   for d in HP_results structures; do ln -sfn ../$d $ws/$d; done
 done
 ln -sfn ../FBP_results original_analysis/FBP_results
-ls -l original_analysis thermo_analysis | grep -- '->'
+for d in FBP_results structures; do ln -sfn ../$d FBP_analysis/$d; done
+ls -l original_analysis thermo_analysis FBP_analysis | grep -- '->'

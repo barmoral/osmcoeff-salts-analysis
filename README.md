@@ -1,10 +1,11 @@
 # osmcoeff-salts-analysis
 
-Two workspaces. Pick one and work inside it; both read the same (heavy) data through links.
+Three workspaces. Pick one and work inside it; all read the same (heavy) data through links.
 
 | folder | what it is |
 |---|---|
 | `original_analysis/` | the OLD method, frozen: `HP_analysis_replicates.py`, its run scripts, `HP_tests/`, plot scripts. Git tag `old-method` marks the code that produced the original results. |
+| `FBP_analysis/` | flat-bottom-potential analysis (ported from `openff-dev/FBP_membrane`): `FBP_analysis_replicates.py`, `run_scripts/`, `FBP_tests/`, `results/<case>/` |
 | `thermo_analysis/` | the NEW method: `HP_analysis_replicates_thermo.py`, `HP_tests_thermo/`, `run_scripts/`, `results/<case>/{new,legacy_check}/`, `refpaper_mods/` (cluster scripts, reference papers; not versioned) |
 
 Shared data (never copied, never versioned): `HP_results/` (trajectories + the old analysis outputs, side by side),

@@ -20,11 +20,12 @@ import matplotlib.pyplot as plt
 
 SRC = "/media/bamo6610/DATA/osmcoeff-salts"
 CASES = {  # name -> (results dir, k tag, line colour, Lz in nm)
-    "FBP":      (f"{SRC}/FBP_NaCl_TIP3P",      "k4184",  "#2a6fb0", 14.4),
+    "FBP":      (f"{SRC}/FBP_NaCl_TIP3P/k4184_35m_files",      "k4184",  "#2a6fb0", 14.4),
     "HP":       (f"{SRC}/freezed_results/HP_NaCl_TIP3P",       "k0p661", "#c8641e", 14.4),
     "HP_lcbox": (f"{SRC}/freezed_results/HP_NaCl_TIP3P_lcbox", "k0p661", "#c8641e", 18.0),
     "HP_dbox":  (f"{SRC}/freezed_results/HP_NaCl_TIP3P_dbox",  "k0p661", "#c8641e", 28.8),
     "HP_144_smoke": (f"{SRC}/HP_NaCl_TIP3P_144_smoke", "k0p661", "#2a8f5a", 14.4),  # 1026 code: periodic restraint + box carry-over
+    "HP_144": (f"{SRC}/HP_NaCl_TIP3P_144", "k0p661", "#c8641e", 14.4),  # 1026 code, full-length run
     "HP_180_smoke": (f"{SRC}/HP_NaCl_TIP3P_180_smoke", "k0p423", "#2a8f5a", 18.0),
     "HP_TIP4P2005_paperbox": (f"{SRC}/freezed_results/HP_NaCl_TIP4P2005_paperbox", "k1p56", "#c8641e", 10.0),
 }
@@ -32,6 +33,7 @@ GROUPS = {  # box -> cases compared on shared axes; outputs go to results/<group
     "box_4.8x4.8x14.4": ["FBP", "HP"],
     "box_4.8x4.8x18.0": ["HP_lcbox"],
     "box_4.8x4.8x28.8": ["HP_dbox"],
+    "box_4.8x4.8x14.4_HP144": ["FBP", "HP_144"],
     "box_4.8x4.8x14.4_smoke_1026": ["HP_144_smoke"],  # 2 ns NPT + 3 ns production
     "box_4.8x4.8x18.0_smoke_1026": ["HP_180_smoke"],  # 2 ns NPT + 3 ns production
     "box_2.9x2.9x10.0_TIP4P2005": ["HP_TIP4P2005_paperbox"],  # 25 ns NPT + 200 ns production
@@ -45,6 +47,15 @@ def load_stage(path, lz):
     return df["Step"].to_numpy() * STEP_FS * 1e-6, df["Box Volume (nm^3)"].to_numpy() / lz  # ns, nm^2
 
 
+def load_stage_dcd(path):
+    """No state_data.csv: area from the per-frame DCD unit cell (A, gamma, B, ... in angstrom; orthorhombic)."""
+    from MDAnalysis.lib.formats.libdcd import DCDFile
+    f = DCDFile(path); h = f.header
+    uc = f.readframes().unitcell
+    t = (h["istart"] + h["nsavc"] * np.arange(len(uc))) * STEP_FS * 1e-6
+    return t, uc[:, 0] * uc[:, 2] / 100.0  # ns, nm^2
+
+
 def load_case(name, lz):
     root, ktag, _, _ = CASES[name]
     rows = []
@@ -53,9 +64,13 @@ def load_case(name, lz):
         t_off = 0.0
         for stage in ("equil_sim_NPT", "prod_sim"):
             f = glob.glob(f"{root}/{stage}_35m_{ktag}_r{r}/*_state_data.csv")
-            if not f:
-                continue
-            t, a = load_stage(f[0], lz)
+            if f:
+                t, a = load_stage(f[0], lz)
+            else:
+                f = glob.glob(f"{root}/{stage}_35m_{ktag}_r{r}/*_trajectory.dcd")
+                if not f:
+                    continue
+                t, a = load_stage_dcd(f[0])
             rows.append(pd.DataFrame({"replicate": r, "stage": "NPT" if stage.startswith("equil") else "prod",
                                       "time_ns": t + t_off, "area_nm2": a}))
             t_off += t[-1]
